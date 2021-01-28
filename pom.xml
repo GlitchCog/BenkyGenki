@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.glitchcog</groupId>
 	<artifactId>benky-genki</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>0.0.3-SNAPSHOT</version>
 	<name>Benky Genki</name>
 	<description>Genki Japanese vocabulary study aid</description>
 
