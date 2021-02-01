@@ -20,18 +20,19 @@ public class FlashConfig
     private final boolean english;
     private final boolean romanji;
     private final boolean particle;
+    private final boolean type;
 
     /**
-     * Flag order: kana, kanji, english, romanji, particle
+     * Flag order: kana, kanji, english, romanji, particle, type
      * 
      * @param flags
      */
     public FlashConfig(Color color, JCheckBox[] flags)
     {
-        this(color, flags[0].isSelected(), flags[1].isSelected(), flags[2].isSelected(), flags[3].isSelected(), flags[4].isSelected());
+        this(color, flags[0].isSelected(), flags[1].isSelected(), flags[2].isSelected(), flags[3].isSelected(), flags[4].isSelected(), flags[5].isSelected());
     }
 
-    public FlashConfig(final Color color, final boolean kana, final boolean kanji, final boolean english, final boolean romanji, final boolean particle)
+    public FlashConfig(final Color color, final boolean kana, final boolean kanji, final boolean english, final boolean romanji, final boolean particle, final boolean type)
     {
         this.color = color;
         this.kana = kana;
@@ -39,6 +40,7 @@ public class FlashConfig
         this.english = english;
         this.romanji = romanji;
         this.particle = particle;
+        this.type = type;
     }
 
     public String[] getSide(VocabResult vr)
@@ -73,6 +75,10 @@ public class FlashConfig
                 {
                     sideLines.add(pt);
                 }
+            }
+            if (type)
+            {
+                sideLines.add("" + vr.getType());
             }
         }
         else if (vr instanceof KanjiVocab)
@@ -113,6 +119,10 @@ public class FlashConfig
                         break;
                     }
                 }
+            }
+            if (type)
+            {
+                sideLines.add("" + vr.getType());
             }
         }
         return sideLines == null ? new String[] {} : sideLines.toArray(new String[sideLines.size()]);

@@ -21,8 +21,9 @@ public class FlashConfigPanel extends JPanel
     private static final String BL_ENGLISH = "English";
     private static final String BL_ROMANJI = "Romanji";
     private static final String BL_PARTICLE = "Particle";
+    private static final String BL_TYPE = "Type";
 
-    private static final String[] BOX_LABELS = new String[] { BL_KANA, BL_KANJI, BL_ENGLISH, BL_ROMANJI, BL_PARTICLE };
+    private static final String[] BOX_LABELS = new String[] { BL_KANA, BL_KANJI, BL_ENGLISH, BL_ROMANJI, BL_PARTICLE, BL_TYPE };
 
     private JCheckBox[] configBoxes;
 
@@ -34,6 +35,7 @@ public class FlashConfigPanel extends JPanel
         color = new ColorButton(owner, "Color", sideBConfig ? FlashCard.BG_COLOR : FlashCard.FG_COLOR, "Flash card side color", vp);
         setLayout(new GridLayout(BOX_LABELS.length + 1 / 2, 2));
         add(color);
+        add(new JPanel());
         configBoxes = new JCheckBox[BOX_LABELS.length];
 
         ActionListener al = new ActionListener()

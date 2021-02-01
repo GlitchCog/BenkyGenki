@@ -46,6 +46,7 @@ public class ColorButton extends JPanel
 
         // So the button color shows up on Mac OS
         button.setOpaque(true);
+        button.setBorderPainted(false);
 
         add(this.label);
         add(this.button);

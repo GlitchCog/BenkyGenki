@@ -1,6 +1,5 @@
 package com.glitchcog.benkygenki;
 
-import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -79,34 +78,34 @@ public class BenkyGenkiData
         return maxLesson == null ? 0 : maxLesson;
     }
 
-    public static void loadData(String dbPath) throws SQLException
+    public static boolean loadData(String dbPath)
     {
         boolean initialized = initDbDriver();
 
         if (!initialized)
         {
-            throw new SQLException("Unable to initialize database driver.");
-        }
-
-        if (!new File(dbPath).exists())
-        {
-            String errorMessage = "Cannot find database file: " + dbPath;
+            String errorMessage = "Unable to initialize database driver.";
             System.err.println(errorMessage);
             JOptionPane.showMessageDialog(null, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
-            System.exit(1);
-        }
-        else
-        {
-            dbUrl = "jdbc:sqlite:" + dbPath;
-            try (Connection connection = DriverManager.getConnection(dbUrl))
-            {
-                vocabTypes = loadVocabTypes(connection);
-                vocab = loadVocab(connection);
-                kanji = loadKanji(connection);
-                kanjiVocab = loadKanjiVocab(connection);
-            }
+            return false;
         }
 
+        dbUrl = "jdbc:sqlite:" + dbPath;
+        try (Connection connection = DriverManager.getConnection(dbUrl))
+        {
+            vocabTypes = loadVocabTypes(connection);
+            vocab = loadVocab(connection);
+            kanji = loadKanji(connection);
+            kanjiVocab = loadKanjiVocab(connection);
+            return true;
+        }
+        catch (Exception e)
+        {
+            String errorMessage = "Error accessing data at " + dbPath;
+            System.err.println(errorMessage);
+            JOptionPane.showMessageDialog(null, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
     }
 
     private static boolean initDbDriver()

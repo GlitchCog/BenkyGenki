@@ -6,33 +6,22 @@ Please enjoy!
 
 ## Quick Start
 
-Download [BenkyGenki.zip](../../raw/master/zip/BenkyGenki.zip). Unzip its contents. There should be two files:
-
-```
-benkygenki.jar
-benkygenki.db
-```
-
-Double-click benkygenki.jar
+Download [BenkyGenki.jar](../../raw/master/jar/BenkyGenki.jar). Double-click it.
 
 ## Hey, That Didn't Work!
 
-The .jar file is a Java Executable Archive file, so it is a program that can be run if you have the Java Runtime Environment installed. You may already have it, but if you need to, you can download it here [JRE](https://java.com/en/download/). After that's installed, you can run it with this command:
+The .jar file is a Java Executable Archive file, so it is a program that can be run if you have the Java Runtime Environment installed. You may already have it, but if you need to, you can download it here [JRE](https://java.com/en/download/). After that's installed, you should be able to double click the JAR file. If it still doesn't run, it might be because you're operating system is being paranoid about rando programs you just downloaded from somewhere on the internet.
+
+If all else fails, on the command line, you can run it with this command:
 
 ```
-java -jar benkygenki.jar
+java -jar BenkyGenki.jar
 ```
 
 Or possibly by double clicking on the file itself, if your operating system lets you run rando programs you got off the internet, which is something I recommend. If it looks too small on your high-res screen, try this command instead:
 
 ```
-java -jar -Dsun.java2d.uiScale=2.5 benkygenki.jar
-```
-
-The other .db file is the SQLite database containing all the vocabulary. If the program can't find that file in the same place as the JAR, it won't be able to run. If you must move it, you can specify its location like this:
-
-```
-java -jar benkygenki.jar /home/user/randofolder/whydidimovethedatabasehere.db
+java -jar -Dsun.java2d.uiScale=2.5 BenkyGenki.jar
 ```
 
 ## Usage
