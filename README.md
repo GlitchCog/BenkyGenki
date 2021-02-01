@@ -10,16 +10,14 @@ Download [BenkyGenki.jar](../../raw/master/jar/BenkyGenki.jar). Double-click it.
 
 ## Hey, That Didn't Work!
 
-The .jar file is a Java Executable Archive file, so it is a program that can be run if you have the Java Runtime Environment installed. You may already have it, but if you need to, you can download it here [JRE](https://java.com/en/download/). After that's installed, you should be able to double click the JAR file. If it still doesn't run, it might be because you're operating system is being paranoid about rando programs you just downloaded from somewhere on the internet.
+The .jar file is a Java Executable Archive file, so it is a program that can be run if you have the Java Runtime Environment installed. You may already have it, but if you need to, you can download it here [JRE](https://java.com/en/download/). After that's installed, you should be able to double click the JAR file. If it still doesn't run, it might be because you're operating system is being paranoid about letting you run rando programs you got off the internet, which is a practice I personally recommend, as someone who writes rando programs and distributes them on the internet.
 
 If all else fails, on the command line, you can run it with this command:
-
 ```
 java -jar BenkyGenki.jar
 ```
 
-Or possibly by double clicking on the file itself, if your operating system lets you run rando programs you got off the internet, which is something I recommend. If it looks too small on your high-res screen, try this command instead:
-
+If it looks too small on your high-res screen, try this command instead:
 ```
 java -jar -Dsun.java2d.uiScale=2.5 BenkyGenki.jar
 ```
