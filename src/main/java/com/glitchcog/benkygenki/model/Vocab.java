@@ -107,7 +107,7 @@ public class Vocab extends VocabResult
             partStr = "";
             for (Particle part : getParticles())
             {
-                partStr += (partStr.isEmpty() ? "" : "\n") + part.getParticle() + (part.getObject() == null ? "" : " [" + part.getObject() + "]");
+                partStr += (partStr.isEmpty() ? "" : "\n") + (part.getObject() == null ? "" : " [" + part.getObject() + "] ") + part.getParticle();
             }
         }
         return partStr;
