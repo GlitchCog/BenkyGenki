@@ -53,7 +53,7 @@ public class RomanjizerUtil
         loadMaps(stdChars, stdCharsReverse, "まみむめもマミムメモ", 1, "mamimumemomamimumemo", 2);
         loadMaps(stdChars, stdCharsReverse, "やゆよヤユヨ", 1, "yayuyoyayuyo", 2);
         loadMaps(stdChars, stdCharsReverse, "らりるれろラリルレロ", 1, "rarirurerorarirurero", 2);
-        loadMaps(stdChars, stdCharsReverse, "わをワヲ", 1, "wawonwawon", 2);
+        loadMaps(stdChars, stdCharsReverse, "わをワヲ", 1, "wawowawo", 2);
         loadMaps(stdChars, stdCharsReverse, "がぎぐげごガギグゲゴ", 1, "gagigugegogagigugego", 2);
         loadMaps(stdChars, stdCharsReverse, "ざじずぜぞザジズゼゾ", 1, "zajizuzezozajizuzezo", 2);
         loadMaps(stdChars, stdCharsReverse, "だぢでどダヂデド", 1, "dadidedodadidedo", 2);
