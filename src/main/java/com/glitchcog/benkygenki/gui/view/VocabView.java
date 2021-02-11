@@ -29,7 +29,7 @@ public class VocabView extends ViewBase
 
     public static final Color BG_COLOR = new Color(238, 238, 238);
 
-    public static final Color SELECTED_COLOR = new Color(255, 238, 238);
+    public static final Color SELECTED_COLOR = new Color(218, 150, 160);
 
     public VocabView(VocabResult vocabResult, final ViewPanel viewPanel)
     {
@@ -76,7 +76,7 @@ public class VocabView extends ViewBase
         labelMiddle.setFont(BGUtils.getJapaneseFont(24.0f));
         JLabel labelRight = new JLabel(textRight, JLabel.LEFT);
         labelRight.setFont(BGUtils.getJapaneseFont(16.0f));
-        labelRight.setForeground(Color.GRAY);
+        labelRight.setForeground(Color.DARK_GRAY);
 
         add(labelLeft);
         add(labelMiddle);

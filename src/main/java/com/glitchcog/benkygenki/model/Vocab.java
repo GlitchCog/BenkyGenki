@@ -99,15 +99,23 @@ public class Vocab extends VocabResult
         return particles;
     }
 
+    private final static String multiLineDivider = "\n";
+
     public String getParticlesText()
     {
+        return getParticlesText(true);
+    }
+
+    public String getParticlesText(boolean multiLine)
+    {
         String partStr = null;
+        final String divider = multiLine ? multiLineDivider : "; ";
         if (getParticles() != null && !getParticles().isEmpty())
         {
             partStr = "";
             for (Particle part : getParticles())
             {
-                partStr += (partStr.isEmpty() ? "" : "\n") + (part.getObject() == null ? "" : " [" + part.getObject() + "] ") + part.getParticle();
+                partStr += (partStr.isEmpty() ? "" : divider) + (part.getObject() == null ? "" : " [" + part.getObject() + "] ") + part.getParticle();
             }
         }
         return partStr;
@@ -115,7 +123,7 @@ public class Vocab extends VocabResult
 
     public String[] getParticlesTextLines()
     {
-        return getParticlesText() == null || getParticlesText().isEmpty() ? new String[] {} : getParticlesText().split("\n");
+        return getParticlesText(true) == null || getParticlesText(true).isEmpty() ? new String[] {} : getParticlesText(true).split(multiLineDivider);
     }
 
 }

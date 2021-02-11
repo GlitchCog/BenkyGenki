@@ -4,7 +4,6 @@ import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -15,6 +14,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
@@ -26,6 +26,7 @@ import javax.swing.event.ListSelectionListener;
 
 import com.glitchcog.benkygenki.BenkyGenkiData;
 import com.glitchcog.benkygenki.gui.BGUtils;
+import com.glitchcog.benkygenki.gui.ColorButton;
 import com.glitchcog.benkygenki.gui.RangeSlider;
 import com.glitchcog.benkygenki.gui.flash.FlashCard;
 import com.glitchcog.benkygenki.gui.flash.FlashConfigPanel;
@@ -89,8 +90,12 @@ public class VocabTab extends TabBase
         previewCard = new FlashCard(24.0f);
 
         viewPanel = new ViewPanel(previewCard);
-        configPanelSideA = new FlashConfigPanel(owner, "Side A", false, viewPanel);
-        configPanelSideB = new FlashConfigPanel(owner, "Side B", true, viewPanel);
+        ColorButton colorA = new ColorButton(owner, "COLOR", FlashCard.FG_COLOR, "Flash card side A color", viewPanel);
+        ColorButton colorB = new ColorButton(owner, "COLOR", FlashCard.BG_COLOR, "Flash card side B color", viewPanel);
+        colorA.setOtherButton(colorB);
+        colorB.setOtherButton(colorA);
+        configPanelSideA = new FlashConfigPanel(owner, "Side A", false, colorA, viewPanel);
+        configPanelSideB = new FlashConfigPanel(owner, "Side B", true, colorB, viewPanel);
         viewPanel.setConfigPanels(configPanelSideA, configPanelSideB);
 
         resultPanel.addListSelectionListener(new ListSelectionListener()
@@ -164,7 +169,7 @@ public class VocabTab extends TabBase
         lpGbc.gridx++;
         lessonPanel.add(lessonSpanner, lpGbc);
 
-        JPanel typePanel = new JPanel(new GridLayout(2, 6));
+        JPanel typePanel = new JPanel();
         ActionListener tcbl = new ActionListener()
         {
             @Override
@@ -275,7 +280,7 @@ public class VocabTab extends TabBase
         fcspGbc.gridy++;
 
         JSplitPane bottomPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, viewPanel, flashCardSetupPanel);
-        bottomPane.setResizeWeight(0.8);
+        bottomPane.setResizeWeight(1.0);
 
         GridBagConstraints gbc = BGUtils.getGbc();
 
@@ -293,10 +298,14 @@ public class VocabTab extends TabBase
         add(lessonPanel, gbc);
 
         gbc.gridy++;
-        add(typePanel, gbc);
+        gbc.weighty = 0.05;
+        gbc.fill = GridBagConstraints.BOTH;
+        JScrollPane typePanelScroll = new JScrollPane(typePanel, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        typePanelScroll.setMinimumSize(new Dimension(1, 36));
+        add(typePanelScroll, gbc);
 
         gbc.gridy++;
-        gbc.weighty = 1.0;
+        gbc.weighty = 0.95;
         gbc.anchor = GridBagConstraints.SOUTH;
         gbc.fill = GridBagConstraints.BOTH;
 
@@ -326,5 +335,10 @@ public class VocabTab extends TabBase
         }
         List<VocabResult> results = BenkyGenkiData.lookupVocab(lessonSpanner.getValue(), lessonSpanner.getUpperValue(), selectedTypes, query);
         resultPanel.updateResults(results);
+    }
+
+    public ViewPanel getViewPanel()
+    {
+        return viewPanel;
     }
 }

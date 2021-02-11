@@ -4,6 +4,8 @@ import java.awt.Frame;
 
 import javax.swing.JTabbedPane;
 
+import com.glitchcog.benkygenki.gui.view.ViewPanel;
+
 /**
  * @author Matt Yanos
  */
@@ -13,7 +15,7 @@ public class Tabs extends JTabbedPane
 
     private TabBase[] tabs;
 
-    private TabBase vocabTab;
+    private VocabTab vocabTab;
 
     private TabBase grammarTab;
 
@@ -54,4 +56,8 @@ public class Tabs extends JTabbedPane
         }
     }
 
+    public ViewPanel getViewPanel()
+    {
+        return vocabTab.getViewPanel();
+    }
 }

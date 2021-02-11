@@ -8,7 +8,6 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.glitchcog.benkygenki.gui.view.ViewPanel;
@@ -23,10 +22,7 @@ public class ColorButton extends JPanel
 {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * The text label for identifying the color button component
-     */
-    private JLabel label;
+    private ColorButton otherButton;
 
     /**
      * The button that displays the color
@@ -38,9 +34,8 @@ public class ColorButton extends JPanel
     public ColorButton(final Component parent, final String label, Color value, final String explanation, final ViewPanel viewPanel)
     {
         super();
-        this.button = new JButton();
+        this.button = new JButton(label);
         this.button.setToolTipText("");
-        this.label = new JLabel(label);
         setColor(value == null ? Color.BLACK : value);
         button.setBackground(value);
 
@@ -48,7 +43,6 @@ public class ColorButton extends JPanel
         button.setOpaque(true);
         button.setBorderPainted(false);
 
-        add(this.label);
         add(this.button);
 
         this.button.addActionListener(new ActionListener()
@@ -59,6 +53,10 @@ public class ColorButton extends JPanel
                 if (color != null)
                 {
                     setColor(color);
+                    if (otherButton != null)
+                    {
+                        otherButton.setOtherColor(color);
+                    }
                     viewPanel.updateFlashConfig();
                 }
             }
@@ -85,18 +83,19 @@ public class ColorButton extends JPanel
         button.setBackground(value);
     }
 
-    /**
-     * Get the label text
-     * 
-     * @return labelText
-     */
-    public String getLabel()
+    public void setOtherColor(Color fgColor)
     {
-        return label.getText();
+        button.setForeground(fgColor);
     }
 
     public void addListener(PropertyChangeListener pcl)
     {
         chooser.addPropertyChangeListener(pcl);
+    }
+
+    public void setOtherButton(ColorButton otherButton)
+    {
+        this.otherButton = otherButton;
+        setOtherColor(otherButton.getColor());
     }
 }

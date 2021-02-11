@@ -1,14 +1,18 @@
 package com.glitchcog.benkygenki.gui.flash;
 
+import java.awt.Color;
 import java.awt.Frame;
-import java.awt.GridLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
+import com.glitchcog.benkygenki.gui.BGUtils;
 import com.glitchcog.benkygenki.gui.ColorButton;
 import com.glitchcog.benkygenki.gui.view.ViewPanel;
 
@@ -29,15 +33,21 @@ public class FlashConfigPanel extends JPanel
 
     private ColorButton color;
 
-    public FlashConfigPanel(Frame owner, String label, boolean sideBConfig, final ViewPanel vp)
+    public FlashConfigPanel(Frame owner, String label, boolean sideBConfig, ColorButton color, final ViewPanel vp)
     {
-        setBorder(new TitledBorder(label));
-        color = new ColorButton(owner, "Color", sideBConfig ? FlashCard.BG_COLOR : FlashCard.FG_COLOR, "Flash card side color", vp);
-        setLayout(new GridLayout(BOX_LABELS.length + 1 / 2, 2));
-        add(color);
-        add(new JPanel());
-        configBoxes = new JCheckBox[BOX_LABELS.length];
+        this.color = color;
+        setBorder(new TitledBorder(new LineBorder(Color.LIGHT_GRAY, 1), label, TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION));
+        setLayout(new GridBagLayout());
+        GridBagConstraints gbc = BGUtils.getGbc();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.anchor = GridBagConstraints.NORTH;
+        gbc.weightx = 0.0;
+        gbc.weighty = 0.0;
+        gbc.gridwidth = 2;
+        add(color, gbc);
+        gbc.gridy++;
 
+        configBoxes = new JCheckBox[BOX_LABELS.length];
         ActionListener al = new ActionListener()
         {
             @Override
@@ -47,12 +57,18 @@ public class FlashConfigPanel extends JPanel
             }
         };
 
+        gbc.gridwidth = 1;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.weightx = 0.0;
+        gbc.anchor = GridBagConstraints.WEST;
         for (int i = 0; i < BOX_LABELS.length; i++)
         {
+            gbc.gridx = i % 2;
             configBoxes[i] = new JCheckBox(BOX_LABELS[i]);
             configBoxes[i].setSelected((sideBConfig && i == 2) || (!sideBConfig && i == 0));
             configBoxes[i].addActionListener(al);
-            add(configBoxes[i]);
+            add(configBoxes[i], gbc);
+            gbc.gridy += i % 2 == 0 ? 0 : 1;
         }
     }
 

@@ -4,8 +4,12 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
+import com.glitchcog.benkygenki.gui.BenkyGenkiWindow;
 import com.glitchcog.benkygenki.gui.tab.Tabs;
 
+/**
+ * @author Matt Yanos
+ */
 public class BenkyGenkiMain
 {
     public static void main(String[] args)
@@ -23,15 +27,14 @@ public class BenkyGenkiMain
         boolean dataLoadSuccess = BenkyGenkiData.loadData(databaseFilename);
         if (dataLoadSuccess)
         {
-            JFrame window = new JFrame("Benky Genki");
+            BenkyGenkiWindow window = new BenkyGenkiWindow("Benky Genki");
             Tabs tabs = new Tabs(window);
+            window.setCopySource(tabs.getViewPanel());
             window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             window.add(tabs);
-            window.pack();
-            window.setMinimumSize(new Dimension(window.getWidth(), window.getHeight() / 2));
-            window.setSize(1024, 768);
+            window.setMinimumSize(new Dimension(480, 480));
+            window.setSize(1024, 640);
             window.setVisible(true);
         }
     }
-
 }

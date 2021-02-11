@@ -7,14 +7,20 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JRootPane;
 import javax.swing.JSlider;
+import javax.swing.KeyStroke;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -43,6 +49,7 @@ public class FlashDialog extends JDialog
         build(owner);
         setSize(640, 480);
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        setupHideOnEscape(this);
     }
 
     public void setStack(FlashStack stack)
@@ -184,5 +191,32 @@ public class FlashDialog extends JDialog
     private int getWeightToSlider(double weight)
     {
         return Math.min(weightSlider.getMaximum(), Math.max(weightSlider.getMinimum(), (int) ((2.0 - weight + 0.001) * 100.0)));
+    }
+
+    /**
+     * Escape stroke to close popups
+     */
+    private static final KeyStroke escapeStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
+
+    /**
+     * Does the work required to make the parameter JDialog be hidden when pressing escape
+     * 
+     * @param popup
+     */
+    public static void setupHideOnEscape(final JDialog popup)
+    {
+        Action aa = new AbstractAction()
+        {
+            private static final long serialVersionUID = 1L;
+
+            public void actionPerformed(ActionEvent event)
+            {
+                popup.setVisible(false);
+            }
+        };
+        final String mapKey = "escapePressed";
+        JRootPane root = popup.getRootPane();
+        root.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(escapeStroke, mapKey);
+        root.getActionMap().put(mapKey, aa);
     }
 }

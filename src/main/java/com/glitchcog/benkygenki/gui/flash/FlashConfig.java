@@ -69,7 +69,7 @@ public class FlashConfig
             {
                 sideLines.add(v.getRomanji());
             }
-            if (particle && v.getParticlesText() != null && !v.getParticlesText().isEmpty())
+            if (particle && v.hasParticles())
             {
                 for (String pt : v.getParticlesTextLines())
                 {
