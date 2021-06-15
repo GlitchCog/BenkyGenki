@@ -15,6 +15,8 @@ import java.util.Set;
 import javax.swing.JOptionPane;
 
 import com.glitchcog.benkygenki.model.GrammarResult;
+import com.glitchcog.benkygenki.model.Kana;
+import com.glitchcog.benkygenki.model.KanaType;
 import com.glitchcog.benkygenki.model.Kanji;
 import com.glitchcog.benkygenki.model.KanjiReading;
 import com.glitchcog.benkygenki.model.KanjiVocab;
@@ -32,6 +34,8 @@ public class BenkyGenkiData
 
     private static String dbUrl;
 
+    private static Map<Integer, KanaType> kanaTypes;
+    private static List<Kana> kana;
     private static Map<Integer, VocabType> vocabTypes;
     private static List<Vocab> vocab;
     private static Map<Integer, Kanji> kanji;
@@ -42,6 +46,16 @@ public class BenkyGenkiData
     private static List<KanjiVocab> kanjiVocabDistinct;
     private static Integer minLesson;
     private static Integer maxLesson;
+
+    public static Map<Integer, KanaType> getKanaTypes()
+    {
+        return kanaTypes;
+    }
+
+    public static List<Kana> getKana()
+    {
+        return kana;
+    }
 
     public static Map<Integer, VocabType> getVocabTypes()
     {
@@ -93,6 +107,8 @@ public class BenkyGenkiData
         dbUrl = "jdbc:sqlite:" + dbPath;
         try (Connection connection = DriverManager.getConnection(dbUrl))
         {
+            kanaTypes = loadKanaTypes(connection);
+            kana = loadKana(connection);
             vocabTypes = loadVocabTypes(connection);
             vocab = loadVocab(connection);
             kanji = loadKanji(connection);
@@ -123,6 +139,25 @@ public class BenkyGenkiData
         }
     }
 
+    private static Map<Integer, KanaType> loadKanaTypes(Connection connection) throws SQLException
+    {
+        Map<Integer, KanaType> kanaTypes = null;
+        try (PreparedStatement ps = connection.prepareStatement("SELECT id, name FROM kana_type"))
+        {
+            try (ResultSet rs = ps.executeQuery())
+            {
+                kanaTypes = new HashMap<Integer, KanaType>();
+                while (rs.next())
+                {
+                    final int id = rs.getInt("id");
+                    final String name = rs.getString("name");
+                    kanaTypes.put(id, KanaType.getByName(name));
+                }
+            }
+        }
+        return kanaTypes;
+    }
+
     private static Map<Integer, VocabType> loadVocabTypes(Connection connection) throws SQLException
     {
         Map<Integer, VocabType> vocabTypes = null;
@@ -140,6 +175,32 @@ public class BenkyGenkiData
             }
         }
         return vocabTypes;
+    }
+
+    private static List<Kana> loadKana(Connection connection) throws SQLException
+    {
+        List<Kana> kana = null;
+        try (PreparedStatement ps = connection.prepareStatement("SELECT kana.id kid, kana, sound, name kana_type, dakuten, handakuten, chiisai, youon FROM kana INNER JOIN kana_type ON kana_type.id = fk_kana_type"))
+        {
+            try (ResultSet rs = ps.executeQuery())
+            {
+                kana = new ArrayList<Kana>();
+                while (rs.next())
+                {
+                    Kana k = new Kana();
+                    k.setId(rs.getInt("kid"));
+                    k.setKana(rs.getString("kana"));
+                    k.setSound(rs.getString("sound"));
+                    k.setType(KanaType.getByName(rs.getString("kana_type")));
+                    k.setDakuten(rs.getBoolean("dakuten"));
+                    k.setHandakuten(rs.getBoolean("handakuten"));
+                    k.setChiisai(rs.getBoolean("chiisai"));
+                    k.setYouon(rs.getBoolean("youon"));
+                    kana.add(k);
+                }
+            }
+        }
+        return kana;
     }
 
     private static List<Vocab> loadVocab(Connection connection) throws SQLException
